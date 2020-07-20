@@ -57,9 +57,9 @@ const personalMovieDB = {
                 i--;
             }
         }
-        for (let i = 0; i < personalMovieDB.genres.length; i++) {
-            console.log(`Любимый жанр #${i+1} - это ${personalMovieDB.genres[i]}`);
-        }
+        personalMovieDB.genres.forEach((item, i)=>{
+            console.log(`Любимый жанр #${i+1} - это ${item}`);
+        });
     },
     toggleVisibleMyDB: function () {
         this.private = !this.private;
