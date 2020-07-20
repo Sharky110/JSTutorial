@@ -5,7 +5,7 @@ var n = 9,
 let sudoku = [];
 let counter = 0;
 
-function initArray(){
+function initArray() {
     for (var i = 0; i < m; i++) {
         sudoku[i] = [];
         for (var j = 0; j < n; j++) {
@@ -21,7 +21,6 @@ function generate() {
     initArray();
     for (let x = 0; x < 9; x++) {
         for (let y = 0; y < 9; y++) {
-            printCube();
             let random = getRandomInt(9) + 1;
             if (isInRow(x, random) || isInCol(y, random) || isInCube(x, y, random)) {
                 counter += 1;
@@ -38,10 +37,10 @@ function generate() {
             }
         }
     }
+    printCube();
 }
 
 function getRandomInt(max) {
-    let r = 5;
     return Math.floor(Math.random() * Math.floor(max));
 }
 
@@ -63,32 +62,47 @@ function isInCol(y, value) {
     return false;
 }
 
-function isInCube(x, y, value) {
-    const startX = x / 3 * 3;
-    const startY = y / 3 * 3;
-    const endX = startX + 3;
-    const endY = startY + 3;
+function div(val, by) {
+    return (val - val % by) / by;
+}
 
-    for (let a = startX; a < endX; a++) {
-        for (let b = startY; b < endY; b++) {
-            if (sudoku[a][b] == value) {
-                return true;
+function isInCube(x, y, value) {
+        const startX = div(x, 3) * 3;
+        const startY = div(y, 3) * 3;
+        const endX = startX + 3;
+        const endY = startY + 3;
+        for (let a = startX; a < endX; a++) {
+            for (let b = startY; b < endY; b++) {
+                if (sudoku[a][b] == value) {
+                    return true;
+                }
             }
         }
-    }
     return false;
 }
 
-function printCube(){
+function printCube() {
     let str;
-    for(let x = 0; x<9;x++){
-        for(let y = 0; y<9; y++){
-     //       console.log(x);
-      //      console.log(y);
-     //       console.log(`val: ${sudoku[x][y]}`);
+    for (let x = 0; x < 9; x++) {
+        for (let y = 0; y < 9; y++) {
             str += sudoku[x][y];
         }
         console.log(str);
-        str ='';
+        str = '';
+    }
+}
+
+printHTML();
+
+function printHTML(){
+    const header = document.querySelector('.Header');
+    for(let x = 0; x<9;x++){
+        header.innerHTML += '<div class="divLine"></div>';
+    }
+    const divnie = header.querySelectorAll('.divLine');
+    for(let x = 0; x<9;x++){
+        for(let y=0;y<9;y++){
+            divnie[x].innerHTML += `<div class="divCell">${sudoku[x][y]}</div>`;
+        }
     }
 }
