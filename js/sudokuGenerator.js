@@ -41,6 +41,7 @@ function generate() {
 }
 
 function getRandomInt(max) {
+    let r = 5;
     return Math.floor(Math.random() * Math.floor(max));
 }
 
