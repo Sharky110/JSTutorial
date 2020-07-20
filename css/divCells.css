@@ -1,0 +1,27 @@
+.divLine{
+    display: table;
+    height: 50px;
+    width: 450px;
+}
+
+.divCell{
+    display: table-cell;
+    text-align: center;
+    font-size: 32px;
+    font-family: 'Roboto', sans-serif;
+    width: 10px;
+    background-color: #cccccc;
+}
+
+.divCell:hover{
+    display: table-cell;
+    text-align: center;
+    font-size: 32px;
+    font-family: 'Roboto', sans-serif;
+    width: 10px;
+    background-color: #ffff0f;
+}
+
+.Header{
+    font-family: 'Roboto', sans-serif;
+}
