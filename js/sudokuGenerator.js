@@ -67,17 +67,17 @@ function div(val, by) {
 }
 
 function isInCube(x, y, value) {
-        const startX = div(x, 3) * 3;
-        const startY = div(y, 3) * 3;
-        const endX = startX + 3;
-        const endY = startY + 3;
-        for (let a = startX; a < endX; a++) {
-            for (let b = startY; b < endY; b++) {
-                if (sudoku[a][b] == value) {
-                    return true;
-                }
+    const startX = div(x, 3) * 3;
+    const startY = div(y, 3) * 3;
+    const endX = startX + 3;
+    const endY = startY + 3;
+    for (let a = startX; a < endX; a++) {
+        for (let b = startY; b < endY; b++) {
+            if (sudoku[a][b] == value) {
+                return true;
             }
         }
+    }
     return false;
 }
 
@@ -92,17 +92,43 @@ function printCube() {
     }
 }
 
-printHTML();
+const visibleNums = 10;
 
-function printHTML(){
+printHTML();
+RemoveNums(visibleNums);
+
+
+
+function printHTML() {
     const header = document.querySelector('.Header');
-    for(let x = 0; x<9;x++){
+    for (let x = 0; x < 9; x++) {
         header.innerHTML += '<div class="divLine"></div>';
     }
     const divnie = header.querySelectorAll('.divLine');
-    for(let x = 0; x<9;x++){
-        for(let y=0;y<9;y++){
+    for (let x = 0; x < 9; x++) {
+        for (let y = 0; y < 9; y++) {
             divnie[x].innerHTML += `<div class="divCell">${sudoku[x][y]}</div>`;
         }
     }
+
+    const divCells = header.querySelectorAll('.divCell');
+    divCells.forEach((item) => {
+        item.addEventListener('click', () => {
+            alert(item.textContent);
+        });
+    });
 }
+
+function RemoveNums(numsToRemove){
+    const divCells = document.querySelectorAll('.divCell');
+            for (let i = 0; i < numsToRemove; i++){
+                var randNum = getRandomInt(81);
+                if (divCells[randNum].textContent == ''){
+                    i -= 1;
+                } 
+                else{
+                    divCells[randNum].textContent = '';
+                }
+                    
+            }
+        }
