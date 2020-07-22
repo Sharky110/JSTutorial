@@ -107,28 +107,162 @@ function printHTML() {
     const divnie = header.querySelectorAll('.divLine');
     for (let x = 0; x < 9; x++) {
         for (let y = 0; y < 9; y++) {
-            divnie[x].innerHTML += `<div class="divCell">${sudoku[x][y]}</div>`;
+            divnie[x].innerHTML += `<div class="divCell" data-hor='${x}' data-vert='${y}' data-cube='${(div(x,3) * 3) + div(y,3)}'">${sudoku[x][y]}</div>`;
         }
     }
 
+    const numbersDiv =
+        `<div>
+        <div class="divMiniLine">
+            <div class ="divMiniCell">1</div>
+            <div class ="divMiniCell">2</div>
+            <div class ="divMiniCell">3</div>
+        </div>
+        <div class="divMiniLine">
+            <div class ="divMiniCell">4</div>
+            <div class ="divMiniCell">5</div>
+            <div class ="divMiniCell">6</div>
+        </div>
+        <div class="divMiniLine">
+            <div class ="divMiniCell">7</div>
+            <div class ="divMiniCell">8</div>
+            <div class ="divMiniCell">9</div>
+        </div>
+    </div>`;
+
+    let tempVal = 0;
+    let gtto = false;
+
+
     const divCells = header.querySelectorAll('.divCell');
+
     divCells.forEach((item) => {
-        item.addEventListener('click', () => {
-            alert(item.textContent);
+
+        item.setAttribute('data-constant', 'true');
+
+        item.addEventListener('mouseenter', () => {
+            if (item.dataset.constant == 'true') {
+                return;
+            }
+            console.log("In");
+            if (gtto) {
+                return;
+            }
+            tempVal = item.textContent;
+
+            item.innerHTML = numbersDiv;
+
+            const divMiniCells = item.querySelectorAll('.divMiniCell');
+            divMiniCells.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    tempVal = btn.textContent;
+                    item.textContent = tempVal;
+                    gtto = true;
+                });
+            });
+        });
+        item.addEventListener('mouseleave', () => {
+            if (item.dataset.constant == 'true') {
+                return;
+            }
+            console.log("Out");
+            
+            item.textContent = tempVal;
+
+            if(item.textContent == ''){
+                return;
+            }
+
+            if(!isDuplicateExist(item)){
+                item.dataset.constant = 'true';
+            }
+
+            console.log(isDuplicateExist(item));
+            console.log(numOfDuplicates(item));
+            gtto = false;
+
+            if(finalDesition()){
+                alert('!!!!Congratulations, you won!!!!!');
+            }
         });
     });
 }
 
-function RemoveNums(numsToRemove){
+function RemoveNums(numsToRemove) {
     const divCells = document.querySelectorAll('.divCell');
-            for (let i = 0; i < numsToRemove; i++){
-                var randNum = getRandomInt(81);
-                if (divCells[randNum].textContent == ''){
-                    i -= 1;
-                } 
-                else{
-                    divCells[randNum].textContent = '';
-                }
-                    
+    for (let i = 0; i < numsToRemove; i++) {
+        var randNum = getRandomInt(81);
+        if (divCells[randNum].textContent == '') {
+            i -= 1;
+        } else {
+            divCells[randNum].textContent = '';
+            divCells[randNum].setAttribute('data-constant', 'false');
+        }
+    }
+}
+
+function isDuplicateExist(currElement){
+    const divCells = document.querySelectorAll('.divCell');
+    let result = false;
+    for(let x=0; x< divCells.length;x++){
+        const element = divCells[x];
+        if(element.textContent == ''){
+            continue;
+        }
+
+        if(element.dataset.hor == currElement.dataset.hor &&
+        element.dataset.vert == currElement.dataset.vert &&
+        element.dataset.cube == currElement.dataset.cube){
+        continue;
+        }
+        
+        if(element.textContent == currElement.textContent){
+            if(element.dataset.hor == currElement.dataset.hor){
+                result = true;
+                break;
+            }
+            else if(element.dataset.vert == currElement.dataset.vert){
+                result = true;
+                break;
+            }
+            else if(element.dataset.cube == currElement.dataset.cube){
+                result = true;
+                break;
             }
         }
+    }
+    return result;
+}
+
+function numOfDuplicates(currElement){
+    const divCells = document.querySelectorAll('.divCell');
+    let result = 0;
+    for(let x=0; x< divCells.length;x++){
+        const element = divCells[x];
+        if(element.textContent == currElement.textContent){
+            if(element.dataset.hor == currElement.dataset.hor){
+                result += 1;
+            }
+            else if(element.dataset.vert == currElement.dataset.vert){
+                result += 1;
+            }
+            else if(element.dataset.cube == currElement.dataset.cube){
+                result += 1;
+            }
+        }
+    }
+    return result;
+}
+
+function finalDesition(){
+    const divCells = document.querySelectorAll('.divCell');
+    let result = true;
+    for(let x=0; x< divCells.length;x++){
+        const element = divCells[x];
+        if(element.dataset.constant == 'false'){
+            result = false;
+            break;
+        }
+    }
+    return result;
+}

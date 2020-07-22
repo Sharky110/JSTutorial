@@ -1,36 +1,58 @@
+body{
+    background-image: url('../images/japan.jpg');
+    margin: auto;
+    max-width: 900px;
+}
+
 .divLine{
     display: table;
-    height: 60px;
-    width: 540px;
+    height: 90px;
+    width: 800px;
+}
+
+.divCell[data-constant='true'],.divCell:hover[data-constant='true'] {
+    background-color: #b5c0ff;
+}
+
+
+.divCell{
+    transition: background-color 300ms;
+    transition: transform 300ms;
 }
 
 .divCell, .divCell:hover, .divCell:active{
     display: table-cell;
     text-align: center;
     vertical-align: middle;
+    color: #000000;
     font-size: 32px;
     font-family: 'Roboto', sans-serif;
+
     width: 10px;
     height: 10px;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
 
     border-width: 1px;
     border-style: solid;
     border-color: rgb(37, 37, 37);
     
-    min-width: 60px;
-    min-height: 60px;
+    min-width: 90px;
+    min-height: 90px;
+
+    cursor: pointer;
 }
 
 .divCell:hover{
-    background-color: #ffff0f;
-    
+    transform: scale(1.5);
 }
 
 .divCell:active{
-    background-color: #a1a18b;
+    background-color: #003cff;
 }
 
 .Header{
     font-family: 'Roboto', sans-serif;
+    text-align: center;
+    font-size: 48px;
+    color: #b5c0ff;
 }
